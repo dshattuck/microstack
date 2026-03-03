@@ -18,7 +18,8 @@ jobs:
     
     - name: install hdf5 and libtiff
       run: |
-        sudo apt install libtiff-dev libhdf5-dev
+        sudo apt-get update 
+        sudo apt-get -y install libtiff-dev libhdf5-dev
         
     - name: make
       run: make -j
