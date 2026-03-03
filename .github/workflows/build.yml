@@ -37,19 +37,19 @@ jobs:
         sudo apt-get -y install libtiff-dev libhdf5-dev
         
     - name: make
-      run: make -j
+      run: make -j install
 
     - name: Save Package Folder as Artifact
       uses: actions/upload-artifact@v4
       with:
         name: microstack-${{env.BUILDDATE}}-${{ env.SHA_SHORT }}
-        path: bin
+        path: $HOME/MouseSuite
         overwrite: true  
         
     - name: Save Package Folder as Zip for Release
       if: github.event_name == 'release'
       run: |
-        zip -r ${{env.ZipFile}} bin
+        zip -r ${{env.ZipFile}} $HOME/MouseSuite
 
     - name: Publish ${{ env.Package }}
       if: github.event_name == 'release'
