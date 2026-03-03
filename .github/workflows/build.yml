@@ -1,12 +1,6 @@
 name: Linux Packager
 run-name: Package microstack for Linux by @${{ github.actor }}
 
-on:
-  workflow_dispatch:
-  # push:
-  #   branches: [ "main" ]
-  # pull_request:
-  #   branches: [ "main" ]
 env:
   VERSION: 26a
   ASSETS_VERSION: 26a
