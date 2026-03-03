@@ -7,6 +7,21 @@ on:
   #   branches: [ "main" ]
   # pull_request:
   #   branches: [ "main" ]
+env:
+  VERSION: 26a
+  ASSETS_VERSION: 26a
+  RELEASEVERSION: ${{ github.ref_name }}
+  SOLUTION_FILE_PATH: .
+
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -15,6 +30,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: setup vars
+      run: |
+        echo "ZipFile=microstack-26a-x86_64.zip" >> $GITHUB_ENV      
+        echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+        echo "BUILDDATE=$(date +'%Y-%m-%dT%H%M%S')" >> $GITHUB_ENV
     
     - name: install hdf5 and libtiff
       run: |
@@ -23,4 +44,32 @@ jobs:
         
     - name: make
       run: make -j
+
+    - name: Save Package Folder as Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: microstack-${{env.BUILDDATE}}-${{ env.SHA_SHORT }}
+        path: bin
+        overwrite: true  
+        
+    - name: Save Package Folder as Zip for Release
+      if: github.event_name == 'release'
+      run: |
+        zip -r ${{env.ZipFile}} bin
+
+    - name: Publish ${{ env.Package }}
+      if: github.event_name == 'release'
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "${{env.ZipFile}}" 
+        tag: ${{ env.RELEASEVERSION }}       
+        allowUpdates: true
+
+    - name: Publish ${{ env.Package }}
+      if: github.event_name == 'release'
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "${{ env.Package }}"
+        tag: ${{ env.RELEASEVERSION }}       
+        allowUpdates: true
 
