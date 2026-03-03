@@ -1,5 +1,5 @@
 # MicroStack
-C++ program for stacking TIFF images into and hdf file.
+C++ program for stacking TIFF images into an hdf5 file.
 
 Supports only unsigned 16-bit integer single-channel images.
 
