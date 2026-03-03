@@ -5,11 +5,21 @@ Supports only unsigned 16-bit integer single-channel images.
 
 ## Usage
 ```
-usage: microstack -i image1.tif {image2.tif ... imageN.tif} -o imagestack.h5
-```
+usage: microstack -i image1.tif {image2.tif ... imageN.tif} -o imagestack.h5 [options]
+
 where `image1.tif {image2.tif ... imageN.tif}` is your list of tiff files and `imagestack.h5` is the output hdf5 file.
 
-Currently, microstack is set to use 32x32x32 chunks and store the images in the output file in the location `/stack`.
+required settings:
+-i <arguments>                 TIFF filenames
+-o output_hdf5                 output hdf5 file
+
+optional arguments:
+--license                      show the license information and quit
+-n image_name                  image path in hdf5 file [default: stack]
+-c compression_level           level for gzip (0=none; 9=maximum) [default: 0]
+```
+
+Currently, microstack is set to use 32x32x32 chunks and store the images in the output file in the location `/stack`. The data path can be changed with the `-n` option.
 
 ## Building
 
