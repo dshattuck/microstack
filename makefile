@@ -18,7 +18,7 @@ InstName ?= MouseSuite
 LongName = $(Name)$(VersionNum)_$(MACHTYPE)
 Target = $(BinDir)/$(LongName)
 
-CC := c++ -D'BUILDVERSION="$(GITHEAD)"' -O3 $(DEBUG) -std=c++23 
+CC := c++ -DBUILDVERSION='"$(GITHEAD)"' -O3 $(DEBUG) -std=c++23 
 Includes:=-I. -I/usr/include/hdf5/serial/
 Libraries:= -L/usr/lib/x86_64-linux-gnu/hdf5/serial /usr/lib/x86_64-linux-gnu/hdf5/serial/libhdf5_hl_cpp.a /usr/lib/x86_64-linux-gnu/hdf5/serial/libhdf5_cpp.a /usr/lib/x86_64-linux-gnu/hdf5/serial/libhdf5_hl.a /usr/lib/x86_64-linux-gnu/hdf5/serial/libhdf5.a -lcrypto -lcurl -lpthread -lsz -lz -ldl -lm -ltiff 
 InstallDir ?= $(HOME)/$(InstName)$(VersionNum)/bin/$(MACHTYPE)
@@ -55,7 +55,7 @@ run: $(Target)
 	$(Target)
 
 test: $(Target)
-	$(Target) -i /data/RodentToolsData/Ex_488_Em_525_stitched/082870_110900_074*.tif -o test_32.h5
+	$(Target) -n tiffs -i /data/RodentToolsData/Ex_488_Em_525_stitched/082870_110900_074*.tif -o test_32.h5
 
 full: $(Target)
 	$(Target) -i /data/RodentToolsData/Ex_488_Em_525_stitched/082870*.tif -o /data2/Rodent/Ex_488_Em_525_stitched_32nc.h5
