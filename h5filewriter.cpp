@@ -8,7 +8,7 @@
 #include <timer.h>
 #include <image2d.h>
 
-bool H5FileWriter::createImageVar(const std::string &varname)
+bool H5FileWriter::createImageVar(const std::string &varname, int compression)
 {
   imageVar.name=varname;
   imageVar.dims = imageDims;
@@ -16,7 +16,7 @@ bool H5FileWriter::createImageVar(const std::string &varname)
   H5::DSetCreatPropList cparms;
   hsize_t chunk_dims[3] ={32, 32, 32};
   cparms.setChunk( 3, chunk_dims );
-  // cparms.setDeflate(9);
+  if (compression>0) cparms.setDeflate(compression);
   imageVar.dataspace = H5::DataSpace (imageVar.dims.size(),&imageVar.dims[0]);  
   imageVar.dataset=H5::DataSet(file.createDataSet(varname.c_str(),H5::PredType::STD_I16LE, imageVar.dataspace, cparms));
   std::cout<<"creating "<<imageVar.name<<'\t'

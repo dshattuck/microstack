@@ -43,9 +43,13 @@ int main(int argc, char *argv[])
   ArgParserBase ap("microstack");
   std::vector<std::string> ifnames;
   std::string ofname;
+  std::string imageName="stack";
+  int compression=0;
   ap.description="tiff to hdf5 stacker for 16-bit single-channel microscopy data";
   ap.bindVector("i",ifnames,"TIFF filenames",true);
+  ap.bind("n",imageName,"image_name","image path in hdf5 file");
   ap.bind("o",ofname,"output_hdf5","output hdf5 file",true);
+  ap.bind("c",compression,"compression_level","level for gzip (0=none; 9=maximum)");
   if (!ap.parseAndValidate(argc,argv))
   {
     return ap.usage();
@@ -68,7 +72,7 @@ int main(int argc, char *argv[])
 
   H5FileWriter h5writer;
   h5writer.open(ofname,firstImageInfo.width,firstImageInfo.height,ifnames.size());
-  h5writer.createImageVar("stack");
+  h5writer.createImageVar(imageName,compression);
 
   Timer t0;
   bool okay=true;
@@ -84,7 +88,7 @@ int main(int argc, char *argv[])
       break;
     }
     t.stop();
-    std::cout<<"read "<<ifnames.size()<<" in "<<t.elapsed()<<std::endl;
+    std::cout<<"read "<<ifnames[i]<<" in "<<t.elapsed()<<std::endl;
     h5writer.writeSlice(image,i);
   }
   t0.stop();
