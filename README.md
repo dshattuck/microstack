@@ -13,13 +13,20 @@ required settings:
 -i <arguments>                 TIFF filenames
 -o output_hdf5                 output hdf5 file
 
-optional arguments:
---license                      show the license information and quit
+optional settings:
+--license                      show the license information
+-b                             buffer writes (faster, uses more memory)
 -n image_name                  image path in hdf5 file [default: stack]
--c compression_level           level for gzip (0=none; 9=maximum) [default: 0]
+-c chunk_size                  size of chunks  [default: 32]
+-z compression_level           level for gzip (0=none; 9=maximum) [default: 0]
 ```
+By default, `microstack` will store the images in the output file in the location `/stack`; the data path can be changed with the `-n` option.
 
-Currently, microstack is set to use 32x32x32 chunks and store the images in the output file in the location `/stack`. The data path can be changed with the `-n` option.
+`microstack` is set to use `32x32x32` chunks; this can be adjusted with `-c`.
+
+Using buffering will read multiple tiffs before writing to the hdf5 file and is recommended. This will speed up the stacking, but will use more memory.
+
+Using compression will greatly reduce read/write speeds for large files.
 
 ## Building
 
