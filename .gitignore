@@ -3,5 +3,6 @@ obj
 makedep
 test*
 log*
-microstack.sif
-microstack.tar
+*.sif
+*.tar
+*.h5
