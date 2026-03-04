@@ -26,10 +26,19 @@ Currently, microstack is set to use 32x32x32 chunks and store the images in the 
 ### Requirements
 * `c++-23` : a C++ compiler that supports `c++-23`
 * `libtiff` : `sudo apt install libtiff-dev`
-* `hdf5` : `sudo apt install libhdf5-dev hdf5-tools`
+* `hdf5` : `sudo apt install libhdf5-dev`
+
+`hdf5-tools` is also useful for interrogating the hdf5 files.
 
 ### make
-Run `make`. Binary will be in `bin/${MACHTYPE}/`, e.g., `bin/x86_64-pc-linux-gnu/microstack26a_x86_64-pc-linux-gnu`.
+Run `make`. The binary will be built in `bin/${MACHTYPE}/`, e.g., `bin/x86_64-pc-linux-gnu/microstack26a_x86_64-pc-linux-gnu`.
+
+### install
+Run `make install`. By default, the files will be installed to `${HOME}/bin/x86_64-pc-linux-gnu/` with softlinks from `microstack` and `microstack26a` `microstack26a_x86_64-pc-linux-gnu`. You can change the install location by setting the `InstallDir` environment variable, e.g.:
+```
+InstallDir=microstack26a_linux_x86_64 make -j install
+```
+will build the files and copy them to `microstack26a_linux_x86_64`.
 
 ## Author
 MicroStack is developed by [David Shattuck](http://shattuck.bmap.ucla.edu) at UCLA.
