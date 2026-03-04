@@ -44,7 +44,8 @@ will build the files and copy them to `microstack26a_linux_x86_64`.
 
 The makefile includes functionality for building a Docker image. It can also build an Apptainer .sif from the Docker image.
 
-The following assume you have `docker` and `apptainer` installed on your system.
+The following assume you have `docker` and `apptainer` installed on your system. Please see the
+[docker installation guide](https://docs.docker.com/engine/install/) and the [apptainer installation guide](https://apptainer.org/docs/admin/1.4/installation.html) as necessary.
 
 ### Docker
 #### building
