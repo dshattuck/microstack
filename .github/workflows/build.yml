@@ -34,8 +34,6 @@ jobs:
         result-encoding: string
         script: return `ghcr.io/${github.repository.toLowerCase()}`
 
-    - run: echo "repo name: ${{ steps.repo_lc.outputs.result }}"
-
     - name: setup vars
       run: |
         echo "ZipFile=microstack-26a-x86_64.zip" >> $GITHUB_ENV      
