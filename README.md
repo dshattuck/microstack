@@ -40,23 +40,44 @@ InstallDir=microstack26a_linux_x86_64 make -j install
 ```
 will build the files and copy them to `microstack26a_linux_x86_64`.
 
-### Building Docker and Singularity Images
+## Docker and Singularity Images
 
 The makefile includes functionality for building a Docker image. It can also build an Apptainer .sif from the Docker image.
 
 The following assume you have `docker` and `apptainer` installed on your system.
 
-#### Docker
+### Docker
+#### building
 This will build microstack (if necessary) and then build a minimal Docker container named microstack, which uses a slim version of debian and includes the libraries `libtiff-dev` and `libhdf5-dev`. The approximate size is `187MB`.
 ```
 make docker
 ```
+#### running the microstack docker
+You can invoke the docker image from the command line, which requires binding the directory path.
+Important: this command will run with root privileges.
+```
+docker run -it --rm -v/path/to/data:/path/to/data microstack -i /path/to/data/*.tif -o /path/to/data/output.h5
+```
+where `/path/to/data/` should be the path to your data directory, which needs to be a subdirectory of the directory from which
+you call docker.
 
-#### Apptainer
-This will invoke the Docker build process and then run apptainer to create `microstack.sif`. The approximate size of the `sif` is `60MB`.
+This will stack all tif files in the data directory to create `output.h5`. Additional options can be added to the docker call as necessary.
+
+### Apptainer
+#### building
+The following command will invoke the Docker build process and then run apptainer to create `microstack.sif`. The approximate size of the `sif` is `60MB`.
 ```
 make apptainer
 ```
+#### running the microstack apptainer
+Running the apptainer requires binding your data directory on the command-line call.
+You can invoke the apptainer as follows:
+```
+apptainer run --bind /path/to/data:/path/to/data:rw /path/to/sif/microstack.sif -i /path/to/data/*.tif -o /path/to/data/output.h5
+```
+where `/path/to/data/` should be the path to your data directory, `/path/to/sif/` is the location of `microstack.sif`. This will stack all tif files in the data directory to create `output.h5`. Additional options can be added as necessary.
+
+Note that additional directories can be bound if needed, e.g., to have a different directory for the output file.
 
 ## Author
 MicroStack is developed by [David Shattuck](http://shattuck.bmap.ucla.edu) at UCLA.
