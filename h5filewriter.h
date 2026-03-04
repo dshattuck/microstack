@@ -11,6 +11,7 @@
 #include <H5Cpp.h>
 
 class Image2D;
+class Image3D;
 
 class H5FileWriter {
 public:
@@ -22,8 +23,9 @@ public:
     H5::DataSet dataset;
   };
   bool open(std::string fname, const hsize_t nx, const hsize_t ny, const hsize_t nz);
-  bool createImageVar(const std::string &varname, int compression=0);
-  int writeSlice(Image2D &image2D, const int z);
+  bool createImageVar(const std::string &varname, hsize_t chunkSize, int compression);
+  bool writeSlice(Image2D &image2D, const hsize_t z);
+  bool writeSlab(Image3D &image3D, const hsize_t startingZ, const hsize_t nPlanes);
   std::vector<hsize_t> imageDims;
   H5::H5File file;
   ImageVar imageVar;
