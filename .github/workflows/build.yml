@@ -44,6 +44,10 @@ jobs:
       run: |
         make -j docker
 
+    - name: push docker to ghcr
+      run: |
+        make push
+
     - name: Save Package Folder as Artifact
       uses: actions/upload-artifact@v4
       with:

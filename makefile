@@ -83,3 +83,6 @@ apptainer: docker
 	@printf '\033[0;35m'"Building microstack apptainer"'\033[0m'"\n"
 	docker save ghcr.io/$(Repository)/microstack:latest -o microstack.tar
 	sudo apptainer build microstack.sif docker-archive:microstack.tar
+
+push: docker
+	docker push ghcr.io/$(Repository)/microstack:latest
