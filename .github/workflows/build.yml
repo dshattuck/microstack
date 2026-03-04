@@ -27,20 +27,15 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Format repo name as lowercase
-      uses: actions/github-script@v6 # Use the latest version
-      id: repo_lc
-      with:
-        result-encoding: string
-        script: return `ghcr.io/${github.repository.toLowerCase()}`
-
     - name: setup vars
       run: |
         echo "ZipFile=microstack-26a-x86_64.zip" >> $GITHUB_ENV      
         echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
         echo "BUILDDATE=$(date +'%Y-%m-%dT%H%M%S')" >> $GITHUB_ENV
-        echo "GitHubRepository=${{ steps.repo_lc.outputs.result }}" >> $GITHUB_ENV
-      shell: bash
+        export GHRepo=${{ github.repository }}
+        echo "GitHubRepository=${GHRepo,,}" >> $GITHUB_ENV
+
+# echo "GHRepo=${{ github.repository }}" >> $GITHUB_ENV
 
     - name: install hdf5 and libtiff
       run: |
