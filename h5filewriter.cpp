@@ -21,7 +21,7 @@ bool H5FileWriter::createImageVar(const std::string &varname, hsize_t chunkSize,
     cparms.setChunk( 3, chunkDims );
     if (compression>0) cparms.setDeflate(compression);
     imageVar.dataspace = H5::DataSpace (imageVar.dims.size(),&imageVar.dims[0]);  
-    imageVar.dataset=H5::DataSet(file.createDataSet(varname.c_str(),H5::PredType::STD_I16LE, imageVar.dataspace, cparms));
+    imageVar.dataset=H5::DataSet(file.createDataSet(varname.c_str(),H5::PredType::NATIVE_UINT16, imageVar.dataspace, cparms));
     std::cout<<"creating "<<imageVar.name<<std::endl;
   }
   catch( H5::Exception error )
@@ -61,7 +61,7 @@ bool H5FileWriter::writeSlice(Image2D &image2D, const hsize_t z)
     hdataspace.selectHyperslab(H5S_SELECT_SET, &memdims[0], &offsets[0]);
     std::cout<<"writing slice "<<z<<"..."<<std::flush;
     Timer t; t.start();
-    imageVar.dataset.write(image2D.data.data(), H5::PredType::STD_I16LE, memspace, hdataspace);
+    imageVar.dataset.write(image2D.data.data(), H5::PredType::NATIVE_UINT16, memspace, hdataspace);
     t.stop();
     std::cout<<"wrote. "<<t.elapsed()<<std::endl;
   }
@@ -85,7 +85,7 @@ bool H5FileWriter::writeSlab(Image3D &image3D, const hsize_t startingZ, const hs
     hdataspace.selectHyperslab(H5S_SELECT_SET, &memdims[0], &offsets[0]);
     std::cout<<"writing slices ["<<startingZ<<","<<startingZ+nplanes-1<<"]..."<<std::flush;
     Timer t; t.start();
-    imageVar.dataset.write(image3D.data.data(), H5::PredType::STD_I16LE, memspace, hdataspace);
+    imageVar.dataset.write(image3D.data.data(), H5::PredType::NATIVE_UINT16, memspace, hdataspace);
     t.stop();
     std::cout<<"written in "<<t.elapsed()<<std::endl;
   }
