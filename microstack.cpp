@@ -48,6 +48,7 @@ int main(int argc, char *argv[])
   bool buffered=false;
   int compression=0;
   size_t chunksize=32;
+  float rx=1.0f,ry=1.0f,rz=1.0f;
   ap.description="tiff to hdf5 stacker for 16-bit single-channel microscopy data";
   ap.bindVector("i",ifnames,"TIFF filenames",true);
   ap.bind("o",ofname,"output_hdf5","output hdf5 file",true);
@@ -55,6 +56,9 @@ int main(int argc, char *argv[])
   ap.bind("n",imageName,"image_name","image path in hdf5 file");
   ap.bind("c",chunksize,"chunk_size","size of chunks ");
   ap.bind("z",compression,"compression_level","level for gzip (0=none; 9=maximum)");
+  ap.bind("rx",rx,"x_step","x-axis resolution");
+  ap.bind("ry",ry,"y_step","y-axis resolution");
+  ap.bind("rz",rz,"z_step","z-axis resolution");
   if (!ap.parseAndValidate(argc,argv))
   {
     return ap.usage();
@@ -76,6 +80,7 @@ int main(int argc, char *argv[])
 
   H5FileWriter h5writer;
   h5writer.open(ofname,firstImageInfo.width,firstImageInfo.height,ifnames.size());
+  h5writer.setStepsizes(rx,ry,rz);
   if (!h5writer.createImageVar(imageName,chunksize,compression))
   {
     std::cerr<<"could not create image array for /"<<imageName<<". stopping."<<std::endl;
