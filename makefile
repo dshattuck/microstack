@@ -60,13 +60,13 @@ run: $(Target)
 	$(Target)
 
 test: $(Target)
-	$(Target) -n stack -i /data/RodentToolsData/Ex_488_Em_525_stitched/082870_110900_074*.tif -o test_32nc_buf.h5 -rx 1.86 -ry 1.866 -rz 2.0 -b
+	$(Target) -n stack -i /data/RodentToolsData/Ex_488_Em_525_stitched/082870_110900_074*.tif -o test_32nc_buf.h5 -rx 1.866 -ry 1.866 -rz 2.0 -b
 
 full: $(Target)
-	$(Target) -i /data/RodentToolsData/Ex_488_Em_525_stitched/082870*.tif -o /data2/Rodent/Ex_488_Em_525_stitched_32nc_buf.h5 -rx 1.86 -ry 1.866 -rz 2.0 -b -c 32
+	$(Target) -i /data/RodentToolsData/Ex_488_Em_525_stitched/082870*.tif -o /data2/Rodent/Ex_488_Em_525_stitched_32nc_buf.h5 -rx 1.866 -ry 1.866 -rz 2.0 -b -c 32
 
 flat: $(Target)
-	$(Target) -i /data/RodentToolsData/Ex_488_Em_525_stitched/082870*.tif -o /data2/Rodent/Ex_488_Em_525_stitched_flat2.h5 -rx 1.86 -ry 1.866 -rz 2.0 -b
+	$(Target) -i /data/RodentToolsData/Ex_488_Em_525_stitched/082870*.tif -o /data2/Rodent/Ex_488_Em_525_stitched_flat2.h5 -rx 1.866 -ry 1.866 -rz 2.0 -b
 
 build: $(Target)
 
